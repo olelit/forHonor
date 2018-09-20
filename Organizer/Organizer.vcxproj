@@ -133,14 +133,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddNoty.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="Noty.cpp" />
+    <ClCompile Include="SaveInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddNoty.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Noty.h" />
+    <ClInclude Include="SaveInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddNoty.resx">
+      <DependentUpon>AddNoty.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
     </EmbeddedResource>

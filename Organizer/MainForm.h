@@ -1,4 +1,5 @@
 #pragma once
+#include "AddNoty.h"
 
 namespace Organizer {
 
@@ -9,6 +10,7 @@ namespace Organizer {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::IO;
+	
 
 	/// <summary>
 	/// Сводка для Main
@@ -176,6 +178,10 @@ namespace Organizer {
 
 	Bitmap^ curTimeImg; // фото загрузки в pictureBox
 	array<String^>^ arr = gcnew array<String^>(7);
+	array<DateTime>^ date = gcnew array<DateTime>(7);
+	SaveInfo^ save = gcnew SaveInfo();
+	List<Noty^>^ myNotyList;
+	String^ UserLogin = "default";
 		
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
 	{
@@ -197,11 +203,20 @@ namespace Organizer {
 				 pictureBox1->Image = Image::FromFile(GetPath(path));
 			 }
 
+			 void GetALLNoty()
+			 {
+				 for each ( Noty^ item in save->notysList)
+				 {
+					 if (item->Name == UserLogin) {
+						 myNotyList->Add(item);
+					 }
+				 }				 
+			 }
 
 
-
-
-	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	public: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		save->Deserialize();
+		GetALLNoty();
 		arr[0] = "Вс";
 		arr[1] = "Пн";
 		arr[2] = "Вт";
@@ -214,7 +229,6 @@ namespace Organizer {
 		GetTimeArray();
 		CreateTable();
 	}
-
 			 String^ CurrDay(DateTime day)
 			 {
 				 return arr[Convert::ToInt16(day.DayOfWeek)];
@@ -231,8 +245,20 @@ namespace Organizer {
 				 return date;
 			 }
 
-			 void CreateTable()
+			 void CreatePanel(int posY,int posX,int heigth) 
 			 {
+				 Panel^ pan = gcnew Panel();
+				 pan->Location = System::Drawing::Point(x, y);
+				 pan->Size = System::Drawing::Size(110, 60);
+				 pan->Text = j.ToString();
+				 pan->BorderStyle = BorderStyle::FixedSingle;
+				 pan->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickPan);
+				 panel2->Controls->Add(pan);
+			 }
+
+			 void CreateTable() //Заполнение уведомлениями
+			 {
+				 array<int>^ massH = gcnew array<int>(7);
 				 int x = 0;
 				 int y = 0;
 				 for (int i = 0;i <= 23;i++)
@@ -240,21 +266,34 @@ namespace Organizer {
 					 y = i * 60;
 					 for (int j = 0;j <= 6;j++)
 					 {
-						 x = ((j + 1) * 100)+20;
-						 Panel^ pan = gcnew Panel();
-						 pan->Location = System::Drawing::Point(x,y);
-						 pan->Size = System::Drawing::Size(110, 60);
-						 pan->Text = i.ToString() + "_" + j.ToString();
-						 pan->BorderStyle = BorderStyle::FixedSingle;
-						 pan->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickPan);
-						 panel2->Controls->Add(pan);
+						 int height = 0;
+						 for each (Noty^ var in myNotyList)
+						 {
+							 if (var->dateEnd.Date == date[j].Date)
+							 {
+								 int end = var->dateEnd.Hour;
+								 int start = var->dateStart.Hour;
+								 height = end - start;
+								 CreatePanel(mass[j],height);
+								 massH[j] = height;
+								 break;
+							 }
+						 }
+						 if (height == 0) 
+						 {
+							 massH[j]++;
+							 CreatePanel(mass[j], 0);
+						 }
 					 }
 				 }
 			 }
 
 			 void ClickPan(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 			 {
-
+				 Panel^ pan = (Panel^)sender;
+				 DateTime dateNow = date[Convert::ToInt16(pan->Text)];
+				 AddNoty^ noty = gcnew AddNoty(dateNow,save);
+				 noty->ShowDialog();
 			 }
 
 			 void GetDateArray(DateTime input) {
@@ -263,6 +302,7 @@ namespace Organizer {
 				 {
 					 Label^ lab = CreateLabel(L"Microsoft Tai Le", 13.75F, firstDay.Day.ToString() + "\n" + CurrDay(firstDay), 50, System::Drawing::Point((50+((i+1) * 100)), 0));
 					 panel3->Controls->Add(lab);
+					 date[i] = firstDay;
 					 firstDay = firstDay.AddDays(1);
 				 }
 			 }
