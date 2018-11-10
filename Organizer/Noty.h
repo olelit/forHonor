@@ -6,6 +6,7 @@
 	public:
 		Noty();
 
+		int Id;
 		System::String ^ Name;
 		System::String ^ Title;
 		System::DateTime dateStart;

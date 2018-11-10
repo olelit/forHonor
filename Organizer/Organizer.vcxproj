@@ -137,6 +137,7 @@
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="Noty.cpp" />
     <ClCompile Include="SaveInfo.cpp" />
+    <ClCompile Include="UpdateNoty.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddNoty.h">
@@ -147,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Noty.h" />
     <ClInclude Include="SaveInfo.h" />
+    <ClInclude Include="UpdateNoty.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddNoty.resx">
@@ -154,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateNoty.resx">
+      <DependentUpon>UpdateNoty.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

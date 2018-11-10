@@ -1,5 +1,6 @@
 #pragma once
 #include "AddNoty.h"
+#include "UpdateNoty.h"
 
 namespace Organizer {
 
@@ -46,6 +47,8 @@ namespace Organizer {
 	private: System::Windows::Forms::Panel^  panel3;
 	private: System::Windows::Forms::Panel^  panel4;
 	private: System::Windows::Forms::MonthCalendar^  monthCalendar1;
+	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::Button^  button1;
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -74,10 +77,13 @@ namespace Organizer {
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->panel2->SuspendLayout();
+			this->panel3->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// CurDate
@@ -141,6 +147,8 @@ namespace Organizer {
 			// 
 			// panel3
 			// 
+			this->panel3->Controls->Add(this->button2);
+			this->panel3->Controls->Add(this->button1);
 			this->panel3->Location = System::Drawing::Point(12, 61);
 			this->panel3->Name = L"panel3";
 			this->panel3->Size = System::Drawing::Size(952, 60);
@@ -148,11 +156,32 @@ namespace Organizer {
 			this->panel3->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::panel3_Paint);
 			this->panel3->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::panel3_MouseClick);
 			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(71, 0);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(38, 60);
+			this->button2->TabIndex = 1;
+			this->button2->Text = L"Пр.Нед.";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(115, 0);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(38, 60);
+			this->button1->TabIndex = 0;
+			this->button1->Text = L"Сл. Нед";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
+			// 
 			// monthCalendar1
 			// 
 			this->monthCalendar1->Location = System::Drawing::Point(1046, 133);
 			this->monthCalendar1->Name = L"monthCalendar1";
 			this->monthCalendar1->TabIndex = 4;
+			this->monthCalendar1->DateChanged += gcnew System::Windows::Forms::DateRangeEventHandler(this, &MainForm::monthCalendar1_DateChanged);
 			// 
 			// MainForm
 			// 
@@ -171,6 +200,7 @@ namespace Organizer {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->panel2->ResumeLayout(false);
 			this->panel2->PerformLayout();
+			this->panel3->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -181,7 +211,13 @@ namespace Organizer {
 	array<DateTime>^ date = gcnew array<DateTime>(7);
 	SaveInfo^ save = gcnew SaveInfo();
 	List<Noty^>^ myNotyList;
+
+	List<Panel^>^ panList = gcnew List<Panel^>();
+	List<Label^>^ lbList = gcnew List<Label^>();
+
 	String^ UserLogin = "default";
+	const int hBlock = 60;
+	const int wBlock = 110;
 		
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
 	{
@@ -205,6 +241,7 @@ namespace Organizer {
 
 			 void GetALLNoty()
 			 {
+				 myNotyList = gcnew List<Noty^>();
 				 for each ( Noty^ item in save->notysList)
 				 {
 					 if (item->Name == UserLogin) {
@@ -229,10 +266,10 @@ namespace Organizer {
 		GetTimeArray();
 		CreateTable();
 	}
-			 String^ CurrDay(DateTime day)
+			 String^ CurrDay(DateTime day) //Перевод дней на русский язык
 			 {
 				 return arr[Convert::ToInt16(day.DayOfWeek)];
-			 }
+			 } 
 
 			 Label^ CreateLabel(String^ font,float size,String^ text,int height, System::Drawing::Point coord)
 			 {
@@ -245,15 +282,24 @@ namespace Organizer {
 				 return date;
 			 }
 
-			 void CreatePanel(int posY,int posX,int heigth) 
+			 void CreatePanel(int posY,int posX,int heigth,String^ name,bool NotEmpty,Noty^ noty) 
 			 {
 				 Panel^ pan = gcnew Panel();
-				 pan->Location = System::Drawing::Point(x, y);
-				 pan->Size = System::Drawing::Size(110, 60);
-				 pan->Text = j.ToString();
+				 pan->Location = System::Drawing::Point(posX, posY);
+				 pan->Size = System::Drawing::Size(110, hBlock*heigth);
+				 pan->Text = name;
 				 pan->BorderStyle = BorderStyle::FixedSingle;
 				 pan->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickPan);
+				 pan->Name = "0";
 				 panel2->Controls->Add(pan);
+				 if (NotEmpty)
+				 {
+					 String^ text = noty->dateStart.ToShortTimeString() + " - " + noty->dateEnd.ToShortTimeString() + "\n" + noty->Title;;
+					 Label^ lb = CreateLabel(L"Microsoft Tai Le", 8.75F, text , 100, System::Drawing::Point(0, 0));
+					 pan->Name = noty->Id.ToString();
+					 pan->Controls->Add(lb);
+				 }
+				 panList->Add(pan);
 			 }
 
 			 void CreateTable() //Заполнение уведомлениями
@@ -263,27 +309,31 @@ namespace Organizer {
 				 int y = 0;
 				 for (int i = 0;i <= 23;i++)
 				 {
-					 y = i * 60;
 					 for (int j = 0;j <= 6;j++)
 					 {
-						 int height = 0;
-						 for each (Noty^ var in myNotyList)
-						 {
-							 if (var->dateEnd.Date == date[j].Date)
+						 if (massH[j] < 23) {
+							 int height = 0;
+							 x = (j + 1) * wBlock;
+							 y = massH[j] * hBlock;
+
+							 for each (Noty^ var in myNotyList)
 							 {
-								 int end = var->dateEnd.Hour;
-								 int start = var->dateStart.Hour;
-								 height = end - start;
-								 CreatePanel(mass[j],height);
-								 massH[j] = height;
-								 break;
+								 if (var->dateEnd.Date == date[j].Date && var->dateStart.Hour == i)
+								 {
+									 int end = var->dateEnd.Hour;
+									 int start = var->dateStart.Hour;
+									 height = end - start;
+									 massH[j] += height;
+									 CreatePanel(y, x, height,j.ToString(),true,var);
+									 break;
+								 }
 							 }
-						 }
-						 if (height == 0) 
-						 {
-							 massH[j]++;
-							 CreatePanel(mass[j], 0);
-						 }
+							 if (height == 0)
+							 {
+								 massH[j]++;
+								 CreatePanel(y, x, 1, j.ToString(), false, gcnew Noty());
+							 }
+						 }		 
 					 }
 				 }
 			 }
@@ -292,18 +342,34 @@ namespace Organizer {
 			 {
 				 Panel^ pan = (Panel^)sender;
 				 DateTime dateNow = date[Convert::ToInt16(pan->Text)];
-				 AddNoty^ noty = gcnew AddNoty(dateNow,save);
-				 noty->ShowDialog();
+				 if (pan->Name == "0") 
+				 {
+					 AddNoty^ noty = gcnew AddNoty(dateNow, save);
+					 noty->ShowDialog();
+				 }
+				 else
+				 {
+					 for each (Noty^ var in myNotyList)
+					 {
+						 if (var->Id == Convert::ToInt16(pan->Name)) 
+						 {
+							 UpdateNoty^ upNoty = gcnew UpdateNoty(var);
+							 upNoty->ShowDialog();
+							 break;
+						 }
+					 }
+				 }
 			 }
 
 			 void GetDateArray(DateTime input) {
-				 DateTime firstDay = DateTime::Now.AddDays(-(int)DateTime::Now.DayOfWeek);
+				 DateTime firstDay = input.AddDays(-(int)input.DayOfWeek);
 				 for (int i = 0;i <= 6;i++) 
 				 {
-					 Label^ lab = CreateLabel(L"Microsoft Tai Le", 13.75F, firstDay.Day.ToString() + "\n" + CurrDay(firstDay), 50, System::Drawing::Point((50+((i+1) * 100)), 0));
+					 Label^ lab = CreateLabel(L"Microsoft Tai Le", 13.75F, firstDay.Day.ToString() + "\n" + CurrDay(firstDay), hBlock, System::Drawing::Point((50+((i+1) * wBlock)), 0));
 					 panel3->Controls->Add(lab);
 					 date[i] = firstDay;
 					 firstDay = firstDay.AddDays(1);
+					 lbList->Add(lab);
 				 }
 			 }
 
@@ -318,9 +384,42 @@ namespace Organizer {
 				 }
 			 }
 
+			 void ClearTb()
+			 {
+				 for each (Panel^ vars in panList)
+				 {
+					 delete vars;
+				 }
+				 for each ( Label^ var in lbList)
+				 {
+					 delete var;
+				 }
+				 lbList->Clear();
+				 panList->Clear();
+			 }
+
 private: System::Void panel3_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 }
 private: System::Void panel3_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+}
+
+		 void ChageCalendar(DateTime date)
+		 {
+			 ClearTb();
+			 GetDateArray(date);
+			 CreateTable();
+		 }
+
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e)  //Прошлая неделя
+{
+	ChageCalendar(date[0].AddDays(-7));	
+}
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) //Следующая неделя
+{
+	ChageCalendar(date[0].AddDays(7));
+}
+private: System::Void monthCalendar1_DateChanged(System::Object^  sender, System::Windows::Forms::DateRangeEventArgs^  e) {
+	ChageCalendar(e->Start);
 }
 };
 }

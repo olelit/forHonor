@@ -290,7 +290,6 @@ namespace Organizer {
 
 		private: System::Void AddNoty_Load(System::Object^  sender, System::EventArgs^  e)
 		{
-
 		}
 
 		private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -312,6 +311,14 @@ namespace Organizer {
 					 return DateTime(_curDate.Year, _curDate.Month, _curDate.Day, (int)hour, (int)min, 0);
 				 }
 
+				 int GetId() 
+				 {
+					 if (_saveInfo->notysList->Count > 0) {
+						 return _saveInfo->notysList[_saveInfo->notysList->Count-1]->Id;
+					 }
+					 return 1;
+				 }
+
 		private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
 		{
 
@@ -323,6 +330,7 @@ namespace Organizer {
 			if (textBox1->Text != "" && textBox2->Text != "" && TimeNotEq(a, b, c, d))
 			{
 				Noty^ notyItem = gcnew Noty();
+				notyItem->Id = GetId();
 				notyItem->Name = "default";
 				notyItem->Title = textBox1->Text;
 				notyItem->Text = textBox2->Text;
