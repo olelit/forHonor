@@ -22,22 +22,32 @@ namespace Organizer {
 	{
 	public:
 		DateTime _curDate;
-		SaveInfo^ _saveInfo;
+	private: System::Windows::Forms::NumericUpDown^  hourEarl;
+	private: System::Windows::Forms::NumericUpDown^  minEarl;
+	private: System::Windows::Forms::NumericUpDown^  minAfter;
+
+	private: System::Windows::Forms::NumericUpDown^  hourAfter;
+	public:
+
+	public:
+
+			 SaveInfo^ _saveInfo;
 
 		AddNoty(DateTime date, SaveInfo^ save)
 		{
-			InitializeComponent();
 			_curDate = date;
 			_saveInfo = save;
+			InitializeComponent();
+
 			//
 			//TODO: добавьте код конструктора
 			//
 		}
-	private: System::Windows::Forms::TextBox^  hourEarl;
+
 	public:
-	private: System::Windows::Forms::TextBox^  hourAfter;
-	private: System::Windows::Forms::TextBox^  minEarl;
-	private: System::Windows::Forms::TextBox^  minAfter;
+
+
+
 
 	protected:
 		/// <summary>
@@ -92,10 +102,14 @@ namespace Organizer {
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->hourEarl = (gcnew System::Windows::Forms::TextBox());
-			this->hourAfter = (gcnew System::Windows::Forms::TextBox());
-			this->minEarl = (gcnew System::Windows::Forms::TextBox());
-			this->minAfter = (gcnew System::Windows::Forms::TextBox());
+			this->hourEarl = (gcnew System::Windows::Forms::NumericUpDown());
+			this->minEarl = (gcnew System::Windows::Forms::NumericUpDown());
+			this->minAfter = (gcnew System::Windows::Forms::NumericUpDown());
+			this->hourAfter = (gcnew System::Windows::Forms::NumericUpDown());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourEarl))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minEarl))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minAfter))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourAfter))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// textBox1
@@ -211,59 +225,54 @@ namespace Organizer {
 			// 
 			this->hourEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->hourEarl->Location = System::Drawing::Point(52, 98);
+			this->hourEarl->Location = System::Drawing::Point(52, 97);
+			this->hourEarl->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 23, 0, 0, 0 });
 			this->hourEarl->Name = L"hourEarl";
-			this->hourEarl->Size = System::Drawing::Size(48, 26);
-			this->hourEarl->TabIndex = 15;
-			this->hourEarl->Text = L"00";
-			this->hourEarl->UseWaitCursor = true;
-			this->hourEarl->TextChanged += gcnew System::EventHandler(this, &AddNoty::hourEarl_TextChanged);
-			this->hourEarl->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &AddNoty::hourEarl_KeyDown);
-			// 
-			// hourAfter
-			// 
-			this->hourAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->hourAfter->Location = System::Drawing::Point(52, 143);
-			this->hourAfter->Name = L"hourAfter";
-			this->hourAfter->Size = System::Drawing::Size(48, 26);
-			this->hourAfter->TabIndex = 16;
-			this->hourAfter->Text = L"00";
-			this->hourAfter->TextChanged += gcnew System::EventHandler(this, &AddNoty::hourEarl_TextChanged);
-			this->hourAfter->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &AddNoty::hourEarl_KeyDown);
+			this->hourEarl->Size = System::Drawing::Size(47, 26);
+			this->hourEarl->TabIndex = 19;
+			this->hourEarl->ValueChanged += gcnew System::EventHandler(this, &AddNoty::hourEarl_ValueChanged);
 			// 
 			// minEarl
 			// 
 			this->minEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->minEarl->Location = System::Drawing::Point(130, 98);
+			this->minEarl->Location = System::Drawing::Point(131, 98);
+			this->minEarl->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 59, 0, 0, 0 });
 			this->minEarl->Name = L"minEarl";
-			this->minEarl->Size = System::Drawing::Size(48, 26);
-			this->minEarl->TabIndex = 17;
-			this->minEarl->Text = L"00";
-			this->minEarl->TextChanged += gcnew System::EventHandler(this, &AddNoty::minEarl_TextChanged);
-			this->minEarl->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &AddNoty::hourEarl_KeyDown);
+			this->minEarl->Size = System::Drawing::Size(47, 26);
+			this->minEarl->TabIndex = 20;
+			this->minEarl->ValueChanged += gcnew System::EventHandler(this, &AddNoty::minEarl_ValueChanged);
 			// 
 			// minAfter
 			// 
 			this->minAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->minAfter->Location = System::Drawing::Point(130, 144);
+			this->minAfter->Location = System::Drawing::Point(131, 145);
+			this->minAfter->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 59, 0, 0, 0 });
 			this->minAfter->Name = L"minAfter";
-			this->minAfter->Size = System::Drawing::Size(48, 26);
-			this->minAfter->TabIndex = 18;
-			this->minAfter->Text = L"00";
-			this->minAfter->TextChanged += gcnew System::EventHandler(this, &AddNoty::minEarl_TextChanged);
-			this->minAfter->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &AddNoty::hourEarl_KeyDown);
+			this->minAfter->Size = System::Drawing::Size(47, 26);
+			this->minAfter->TabIndex = 22;
+			this->minAfter->ValueChanged += gcnew System::EventHandler(this, &AddNoty::minEarl_ValueChanged);
+			// 
+			// hourAfter
+			// 
+			this->hourAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->hourAfter->Location = System::Drawing::Point(52, 144);
+			this->hourAfter->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 23, 0, 0, 0 });
+			this->hourAfter->Name = L"hourAfter";
+			this->hourAfter->Size = System::Drawing::Size(47, 26);
+			this->hourAfter->TabIndex = 23;
+			this->hourAfter->ValueChanged += gcnew System::EventHandler(this, &AddNoty::hourEarl_ValueChanged);
 			// 
 			// AddNoty
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(282, 375);
+			this->Controls->Add(this->hourAfter);
 			this->Controls->Add(this->minAfter);
 			this->Controls->Add(this->minEarl);
-			this->Controls->Add(this->hourAfter);
 			this->Controls->Add(this->hourEarl);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
@@ -278,6 +287,10 @@ namespace Organizer {
 			this->Name = L"AddNoty";
 			this->Text = L"AddNoty";
 			this->Load += gcnew System::EventHandler(this, &AddNoty::AddNoty_Load);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourEarl))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minEarl))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minAfter))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourAfter))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -290,6 +303,10 @@ namespace Organizer {
 
 		private: System::Void AddNoty_Load(System::Object^  sender, System::EventArgs^  e)
 		{
+			hourAfter->Text = "00";
+			hourEarl->Text = "00";
+			minEarl->Text = "00";
+			minAfter->Text = "00";
 		}
 
 		private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -313,8 +330,8 @@ namespace Organizer {
 
 				 int GetId() 
 				 {
-					 if (_saveInfo->notysList->Count > 0) {
-						 return _saveInfo->notysList[_saveInfo->notysList->Count-1]->Id;
+					 if (_saveInfo->notysList->Count > 1) {
+						 return _saveInfo->notysList[_saveInfo->notysList->Count-1]->Id+1;
 					 }
 					 return 1;
 				 }
@@ -322,10 +339,10 @@ namespace Organizer {
 		private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
 		{
 
-			int a = Convert::ToInt16(hourEarl->Text);
-			int b = Convert::ToInt16(minEarl->Text);
-			int c = Convert::ToInt16(minAfter->Text);
-			int d = Convert::ToInt16(hourAfter->Text);
+			int a = Convert::ToInt16(hourEarl->Value);
+			int b = Convert::ToInt16(minEarl->Value);
+			int c = Convert::ToInt16(minAfter->Value);
+			int d = Convert::ToInt16(hourAfter->Value);
 
 			if (textBox1->Text != "" && textBox2->Text != "" && TimeNotEq(a, b, c, d))
 			{
@@ -342,42 +359,28 @@ namespace Organizer {
 			}
 		}
 
-				 String^ bufText = "";
-
-		private: System::Void hourEarl_TextChanged(System::Object^  sender, System::EventArgs^  e)
-		{
-			((TextBox^)sender)->Text = CheckFormat(sender, 24);
-			return;
+	String^ CheckFormat(NumericUpDown^ num,int min,int max) {
+		int valNow = Convert::ToInt16(num->Value);
+		if (valNow < 10 && valNow > -1) {
+			return "0" + valNow;
 		}
-
-				 String^ CheckFormat(System::Object^  sender, int maxs)
-				 {
-					 String^ tx = ((TextBox^)sender)->Text;
-					 if (tx->Length > 2) {
-						 return tx->Remove(2);
-					 }
-						 int s = 0; 
-						 if (int::TryParse(tx, s)) 
-						 {
-							 return s.ToString();
-						 }
-						 else {
-							 return bufText;
-						 }
-					 return bufText;
-				 }
-
-		private: System::Void hourEarl_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e)
-		{
-			bufText = ((TextBox^)sender)->Text;
+		if (valNow > max || valNow < min) {
+			return "00";
 		}
+	}
 
-		private: System::Void minEarl_TextChanged(System::Object^  sender, System::EventArgs^  e)
-		{
-			((TextBox^)sender)->Text = CheckFormat(sender, 60);
-		}
-
-	};
+	private: System::Void hourEarl_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+		int min = 0;
+		int max = 23;
+		((NumericUpDown^)sender)->Text = CheckFormat((NumericUpDown^)sender,min,max);
+		
+	}
+private: System::Void minEarl_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
+	int min = 0;
+	int max = 59;
+	((NumericUpDown^)sender)->Text = CheckFormat((NumericUpDown^)sender, min, max);
+}
+};
 }
 
 

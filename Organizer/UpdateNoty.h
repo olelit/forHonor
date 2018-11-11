@@ -17,10 +17,16 @@ namespace Organizer {
 	{
 	public:
 		Noty^ _noty;
-		SaveInfo^ saveList = gcnew SaveInfo();
-		UpdateNoty(Noty^ noty)
+	private: System::Windows::Forms::NumericUpDown^  hourAfter;
+	public:
+	private: System::Windows::Forms::NumericUpDown^  minAfter;
+	private: System::Windows::Forms::NumericUpDown^  minEarl;
+	private: System::Windows::Forms::NumericUpDown^  hourEarl;
+			 SaveInfo^ saveList;
+		UpdateNoty(Noty^ noty, SaveInfo^ save)
 		{
 			_noty = noty;
+			saveList = save;
 			InitializeComponent();
 			//
 			//TODO: добавьте код конструктора
@@ -38,11 +44,11 @@ namespace Organizer {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::TextBox^  minAfter;
+
 	protected:
-	private: System::Windows::Forms::TextBox^  minEarl;
-	private: System::Windows::Forms::TextBox^  hourAfter;
-	private: System::Windows::Forms::TextBox^  hourEarl;
+
+
+
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Label^  label6;
@@ -68,10 +74,6 @@ namespace Organizer {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->minAfter = (gcnew System::Windows::Forms::TextBox());
-			this->minEarl = (gcnew System::Windows::Forms::TextBox());
-			this->hourAfter = (gcnew System::Windows::Forms::TextBox());
-			this->hourEarl = (gcnew System::Windows::Forms::TextBox());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label6 = (gcnew System::Windows::Forms::Label());
@@ -83,50 +85,15 @@ namespace Organizer {
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->hourAfter = (gcnew System::Windows::Forms::NumericUpDown());
+			this->minAfter = (gcnew System::Windows::Forms::NumericUpDown());
+			this->minEarl = (gcnew System::Windows::Forms::NumericUpDown());
+			this->hourEarl = (gcnew System::Windows::Forms::NumericUpDown());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourAfter))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minAfter))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minEarl))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourEarl))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// minAfter
-			// 
-			this->minAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->minAfter->Location = System::Drawing::Point(135, 131);
-			this->minAfter->Name = L"minAfter";
-			this->minAfter->Size = System::Drawing::Size(48, 26);
-			this->minAfter->TabIndex = 32;
-			this->minAfter->Text = L"00";
-			// 
-			// minEarl
-			// 
-			this->minEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->minEarl->Location = System::Drawing::Point(135, 87);
-			this->minEarl->Name = L"minEarl";
-			this->minEarl->Size = System::Drawing::Size(48, 26);
-			this->minEarl->TabIndex = 31;
-			this->minEarl->Text = L"00";
-			this->minEarl->TextChanged += gcnew System::EventHandler(this, &UpdateNoty::minEarl_TextChanged);
-			// 
-			// hourAfter
-			// 
-			this->hourAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->hourAfter->Location = System::Drawing::Point(57, 130);
-			this->hourAfter->Name = L"hourAfter";
-			this->hourAfter->Size = System::Drawing::Size(48, 26);
-			this->hourAfter->TabIndex = 30;
-			this->hourAfter->Text = L"00";
-			// 
-			// hourEarl
-			// 
-			this->hourEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->hourEarl->Location = System::Drawing::Point(57, 87);
-			this->hourEarl->Name = L"hourEarl";
-			this->hourEarl->Size = System::Drawing::Size(48, 26);
-			this->hourEarl->TabIndex = 29;
-			this->hourEarl->Text = L"00";
-			this->hourEarl->UseWaitCursor = true;
-			this->hourEarl->TextChanged += gcnew System::EventHandler(this, &UpdateNoty::hourEarl_TextChanged);
 			// 
 			// button2
 			// 
@@ -251,16 +218,56 @@ namespace Organizer {
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &UpdateNoty::button3_Click);
 			// 
+			// hourAfter
+			// 
+			this->hourAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->hourAfter->Location = System::Drawing::Point(58, 130);
+			this->hourAfter->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 23, 0, 0, 0 });
+			this->hourAfter->Name = L"hourAfter";
+			this->hourAfter->Size = System::Drawing::Size(47, 26);
+			this->hourAfter->TabIndex = 37;
+			// 
+			// minAfter
+			// 
+			this->minAfter->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->minAfter->Location = System::Drawing::Point(137, 131);
+			this->minAfter->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 59, 0, 0, 0 });
+			this->minAfter->Name = L"minAfter";
+			this->minAfter->Size = System::Drawing::Size(47, 26);
+			this->minAfter->TabIndex = 36;
+			// 
+			// minEarl
+			// 
+			this->minEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->minEarl->Location = System::Drawing::Point(137, 84);
+			this->minEarl->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 59, 0, 0, 0 });
+			this->minEarl->Name = L"minEarl";
+			this->minEarl->Size = System::Drawing::Size(47, 26);
+			this->minEarl->TabIndex = 35;
+			// 
+			// hourEarl
+			// 
+			this->hourEarl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->hourEarl->Location = System::Drawing::Point(58, 83);
+			this->hourEarl->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 23, 0, 0, 0 });
+			this->hourEarl->Name = L"hourEarl";
+			this->hourEarl->Size = System::Drawing::Size(47, 26);
+			this->hourEarl->TabIndex = 34;
+			// 
 			// UpdateNoty
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(354, 366);
-			this->Controls->Add(this->button3);
+			this->Controls->Add(this->hourAfter);
 			this->Controls->Add(this->minAfter);
 			this->Controls->Add(this->minEarl);
-			this->Controls->Add(this->hourAfter);
 			this->Controls->Add(this->hourEarl);
+			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label6);
@@ -273,6 +280,11 @@ namespace Organizer {
 			this->Controls->Add(this->textBox1);
 			this->Name = L"UpdateNoty";
 			this->Text = L"UpdateNoty";
+			this->Load += gcnew System::EventHandler(this, &UpdateNoty::UpdateNoty_Load);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourAfter))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minAfter))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->minEarl))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->hourEarl))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -290,16 +302,10 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 	Hide();
 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
-	for each (Noty^ var in saveList->notysList)
-	{
-		if (var->Id == _noty->Id)
-		{
-			delete var;
+			int ind = saveList->notysList->IndexOf(_noty);
+			saveList->notysList->RemoveAt(ind);
 			saveList->Serialize();
-			break;
-		}
-	}
-	Hide();
+			Hide();
 }
 
 		 bool TimeNotEq(int a, int b, int c, int d)
@@ -318,13 +324,12 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	int a = Convert::ToInt16(hourEarl->Value);
+	int b = Convert::ToInt16(minEarl->Value);
+	int c = Convert::ToInt16(minAfter->Value);
+	int d = Convert::ToInt16(hourAfter->Value);
 	for each (Noty^ var in saveList->notysList)
 	{
-
-		int a = Convert::ToInt16(hourEarl->Text);
-		int b = Convert::ToInt16(minEarl->Text);
-		int c = Convert::ToInt16(minAfter->Text);
-		int d = Convert::ToInt16(hourAfter->Text);
 		if (var->Id == _noty->Id && TimeNotEq(a,b,c,d))
 		{
 			var->Title = textBox1->Text;
@@ -332,9 +337,21 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			var->dateEnd = ConvertToDate(Convert::ToDecimal(hourAfter->Text), Convert::ToDecimal(minAfter->Text), var);
 			var->Text = textBox2->Text;
 			saveList->Serialize();
+			//_form->CreateTable();
+			Hide();
 			break;
 		}
 	}
+}
+private: System::Void UpdateNoty_Load(System::Object^  sender, System::EventArgs^  e) {
+
+	textBox1->Text = _noty->Title;
+	hourEarl->Value = _noty->dateStart.Hour;
+	hourAfter->Value = _noty->dateEnd.Hour;
+	minEarl->Value = _noty->dateStart.Minute;
+	minAfter->Value = _noty->dateEnd.Minute;
+	textBox2->Text = _noty->Text;
+	
 }
 };
 }

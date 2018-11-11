@@ -19,9 +19,11 @@ namespace Organizer {
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
+		static MainForm^ form;
 		MainForm(void)
 		{
 			InitializeComponent();
+			form = this;
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -49,6 +51,7 @@ namespace Organizer {
 	private: System::Windows::Forms::MonthCalendar^  monthCalendar1;
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -80,6 +83,7 @@ namespace Organizer {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->panel2->SuspendLayout();
@@ -183,11 +187,25 @@ namespace Organizer {
 			this->monthCalendar1->TabIndex = 4;
 			this->monthCalendar1->DateChanged += gcnew System::Windows::Forms::DateRangeEventHandler(this, &MainForm::monthCalendar1_DateChanged);
 			// 
+			// textBox1
+			// 
+			this->textBox1->Font = (gcnew System::Drawing::Font(L"Palatino Linotype", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->textBox1->Location = System::Drawing::Point(12, 12);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(227, 33);
+			this->textBox1->TabIndex = 5;
+			this->textBox1->Text = L"Поиск...";
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::textBox1_TextChanged);
+			this->textBox1->Enter += gcnew System::EventHandler(this, &MainForm::textBox1_Enter);
+			this->textBox1->Leave += gcnew System::EventHandler(this, &MainForm::textBox1_Leave);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1228, 674);
+			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->monthCalendar1);
 			this->Controls->Add(this->panel3);
 			this->Controls->Add(this->panel2);
@@ -202,6 +220,7 @@ namespace Organizer {
 			this->panel2->PerformLayout();
 			this->panel3->ResumeLayout(false);
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -214,9 +233,10 @@ namespace Organizer {
 
 	List<Panel^>^ panList = gcnew List<Panel^>();
 	List<Label^>^ lbList = gcnew List<Label^>();
+	List<Label^>^ NotylbList = gcnew List<Label^>();
 
 	String^ UserLogin = "default";
-	const int hBlock = 60;
+	int hBlock = 60;
 	const int wBlock = 110;
 		
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
@@ -252,20 +272,26 @@ namespace Organizer {
 
 
 	public: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		save->Deserialize();
-		GetALLNoty();
-		arr[0] = "Вс";
-		arr[1] = "Пн";
-		arr[2] = "Вт";
-		arr[3] = "Ср";
-		arr[4] = "Чт";
-		arr[5] = "Пт";
-		arr[6] = "Сб";
-		timer1->Start();
-		GetDateArray(DateTime::Now);
-		GetTimeArray();
-		CreateTable();
+		BuildTable();
 	}
+
+			void BuildTable() 
+			{
+				ClearTb();
+				save->Deserialize();
+				GetALLNoty();
+				arr[0] = "Вс";
+				arr[1] = "Пн";
+				arr[2] = "Вт";
+				arr[3] = "Ср";
+				arr[4] = "Чт";
+				arr[5] = "Пт";
+				arr[6] = "Сб";
+				timer1->Start();
+				GetDateArray(DateTime::Now);
+				GetTimeArray();
+				CreateTable();
+			}
 			 String^ CurrDay(DateTime day) //Перевод дней на русский язык
 			 {
 				 return arr[Convert::ToInt16(day.DayOfWeek)];
@@ -289,24 +315,33 @@ namespace Organizer {
 				 pan->Size = System::Drawing::Size(110, hBlock*heigth);
 				 pan->Text = name;
 				 pan->BorderStyle = BorderStyle::FixedSingle;
-				 pan->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickPan);
 				 pan->Name = "0";
 				 panel2->Controls->Add(pan);
 				 if (NotEmpty)
 				 {
 					 String^ text = noty->dateStart.ToShortTimeString() + " - " + noty->dateEnd.ToShortTimeString() + "\n" + noty->Title;;
-					 Label^ lb = CreateLabel(L"Microsoft Tai Le", 8.75F, text , 100, System::Drawing::Point(0, 0));
-					 pan->Name = noty->Id.ToString();
+					 Label^ lb = CreateLabel(L"Microsoft Tai Le", 10.0F, text , 100, System::Drawing::Point(0, 0));
+					 //lb->Enabled = false;
+					 lb->Size = pan->Size;
+					 lb->Name = noty->Id.ToString();
 					 pan->Controls->Add(lb);
+					 lb->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickLb);
+					 lb->BackColor = Color::Orange;
+					 NotylbList->Add(lb);
+				 }
+				 else {
+					 pan->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::ClickPan);
 				 }
 				 panList->Add(pan);
 			 }
 
 			 void CreateTable() //Заполнение уведомлениями
 			 {
+
 				 array<int>^ massH = gcnew array<int>(7);
 				 int x = 0;
 				 int y = 0;
+				 hBlock = 60;
 				 for (int i = 0;i <= 23;i++)
 				 {
 					 for (int j = 0;j <= 6;j++)
@@ -338,27 +373,28 @@ namespace Organizer {
 				 }
 			 }
 
+			 void ClickLb(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				 Label^ lb = (Label^)sender;
+				 for each (Noty^ var in myNotyList)
+				 {
+					 if (var->Id == Convert::ToInt16(lb->Name))
+					 {
+						 UpdateNoty^ upNoty = gcnew UpdateNoty(var, save);
+
+						 upNoty->ShowDialog();
+						 BuildTable();
+						 break;
+					 }
+				 }
+			 }
+
 			 void ClickPan(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 			 {
 				 Panel^ pan = (Panel^)sender;
 				 DateTime dateNow = date[Convert::ToInt16(pan->Text)];
-				 if (pan->Name == "0") 
-				 {
-					 AddNoty^ noty = gcnew AddNoty(dateNow, save);
-					 noty->ShowDialog();
-				 }
-				 else
-				 {
-					 for each (Noty^ var in myNotyList)
-					 {
-						 if (var->Id == Convert::ToInt16(pan->Name)) 
-						 {
-							 UpdateNoty^ upNoty = gcnew UpdateNoty(var);
-							 upNoty->ShowDialog();
-							 break;
-						 }
-					 }
-				 }
+				 AddNoty^ noty = gcnew AddNoty(dateNow, save);
+				 noty->ShowDialog();
+				 BuildTable();
 			 }
 
 			 void GetDateArray(DateTime input) {
@@ -420,6 +456,24 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void monthCalendar1_DateChanged(System::Object^  sender, System::Windows::Forms::DateRangeEventArgs^  e) {
 	ChageCalendar(e->Start);
+}
+private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+	for each (Label^ item in NotylbList)
+	{
+		if (item->Text->Contains(textBox1->Text) && !String::IsNullOrWhiteSpace(textBox1->Text)) {
+			item->BackColor = Color::Red;
+		}
+		else {
+			item->BackColor = Color::Orange;
+		}
+	}
+	
+}
+private: System::Void textBox1_Enter(System::Object^  sender, System::EventArgs^  e) {
+	textBox1->Text = "";
+}
+private: System::Void textBox1_Leave(System::Object^  sender, System::EventArgs^  e) {
+	textBox1->Text = "Поиск...";
 }
 };
 }
