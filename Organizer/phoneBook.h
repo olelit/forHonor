@@ -44,7 +44,7 @@ namespace Organizer {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button3;
+
 	private: System::Windows::Forms::Button^  button4;
 	private: System::Windows::Forms::NumericUpDown^  numericUpDown1;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column3;
@@ -75,7 +75,6 @@ namespace Organizer {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
@@ -141,7 +140,7 @@ namespace Organizer {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(35, 348);
+			this->button1->Location = System::Drawing::Point(197, 377);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 5;
@@ -159,15 +158,6 @@ namespace Organizer {
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &phoneBook::button2_Click);
 			// 
-			// button3
-			// 
-			this->button3->Location = System::Drawing::Point(116, 348);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(75, 23);
-			this->button3->TabIndex = 7;
-			this->button3->Text = L"Удалить";
-			this->button3->UseVisualStyleBackColor = true;
-			// 
 			// button4
 			// 
 			this->button4->Location = System::Drawing::Point(116, 377);
@@ -176,10 +166,12 @@ namespace Organizer {
 			this->button4->TabIndex = 8;
 			this->button4->Text = L"Выход";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &phoneBook::button4_Click);
 			// 
 			// numericUpDown1
 			// 
 			this->numericUpDown1->Location = System::Drawing::Point(256, 323);
+			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1316134912, 2328, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(212, 20);
 			this->numericUpDown1->TabIndex = 9;
@@ -191,7 +183,6 @@ namespace Organizer {
 			this->ClientSize = System::Drawing::Size(517, 425);
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->button4);
-			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label2);
@@ -237,20 +228,41 @@ namespace Organizer {
 		}
 	}
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-	phoneInfo^ phInfo = gcnew phoneInfo();
-	phInfo->Id = CreateId();
-	phInfo->Name = textBox1->Text;
-	phInfo->Number = (int)numericUpDown1->Value;
-	phone->Add(phInfo);
-	dataGridView1->Rows->Add();
-	int last = dataGridView1->RowCount - 1;
-	dataGridView1->Rows[last]->Cells[0]->Value = phInfo->Id;
-	dataGridView1->Rows[last]->Cells[1]->Value = phInfo->Name;
-	dataGridView1->Rows[last]->Cells[2]->Value = phInfo->Number;
+	String^ name = textBox1->Text;
+	int number = (int)numericUpDown1->Value;
+	if (name != "" && number > 0) {
+		phoneInfo^ phInfo = gcnew phoneInfo();
+		phInfo->Id = CreateId();
+		phInfo->Name = name;
+		phInfo->Number = number;
+		dataGridView1->Rows->Add();
+		int last = dataGridView1->RowCount - 1;
+		dataGridView1->Rows[last]->Cells[0]->Value = phInfo->Id;
+		dataGridView1->Rows[last]->Cells[1]->Value = phInfo->Name;
+		dataGridView1->Rows[last]->Cells[2]->Value = phInfo->Number;
+	}
 }
+
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+	bool flag = true;
+	phone->Clear();
+	for (int i = 0; i < dataGridView1->RowCount; i++) {
+
+		phoneInfo^ item = gcnew phoneInfo();
+		item->Id = (int)dataGridView1->Rows[i]->Cells[0]->Value;
+		item->Name = dataGridView1->Rows[i]->Cells[1]->Value->ToString();
+		item->Number = Convert::ToInt64(dataGridView1->Rows[i]->Cells[2]->Value);
+		if (item->Id == 0 || item->Name == "" || item->Number == 0) {
+			flag = false;
+		}
+		phone->Add(item);
+	}
 	save->phoneList = phone;
-	save->Serialize("phone.sct");
+	if(flag)
+		save->Serialize("phone.sct");
+}
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	Hide();
 }
 };
 }

@@ -135,11 +135,14 @@
   <ItemGroup>
     <ClCompile Include="AddNoty.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="MySnake.cpp" />
     <ClCompile Include="notebook.cpp" />
     <ClCompile Include="Noty.cpp" />
+    <ClCompile Include="Noty1.cpp" />
     <ClCompile Include="phoneBook.cpp" />
     <ClCompile Include="phoneInfo.cpp" />
     <ClCompile Include="SaveInfo.cpp" />
+    <ClCompile Include="Snake.cpp" />
     <ClCompile Include="UpdateNoty.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,13 +152,25 @@
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="MyNote.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="MySnake.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="notebook.h" />
     <ClInclude Include="Noty.h" />
+    <ClInclude Include="Noty1.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="phoneBook.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="phoneInfo.h" />
     <ClInclude Include="SaveInfo.h" />
+    <ClInclude Include="Snake.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="UpdateNoty.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -166,6 +181,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MySnake.resx">
+      <DependentUpon>MySnake.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Noty1.resx">
+      <DependentUpon>Noty1.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="phoneBook.resx">
       <DependentUpon>phoneBook.h</DependentUpon>
