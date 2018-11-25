@@ -1,6 +1,8 @@
 #pragma once
 #include "AddNoty.h"
 #include "UpdateNoty.h"
+#include "phoneBook.h"
+//#include "notebook.h"
 
 namespace Organizer {
 
@@ -52,6 +54,9 @@ namespace Organizer {
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::Button^  button4;
+	private: System::Windows::Forms::Button^  button5;
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -84,6 +89,9 @@ namespace Organizer {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->panel2->SuspendLayout();
@@ -182,7 +190,7 @@ namespace Organizer {
 			// 
 			// monthCalendar1
 			// 
-			this->monthCalendar1->Location = System::Drawing::Point(1046, 133);
+			this->monthCalendar1->Location = System::Drawing::Point(981, 133);
 			this->monthCalendar1->Name = L"monthCalendar1";
 			this->monthCalendar1->TabIndex = 4;
 			this->monthCalendar1->DateChanged += gcnew System::Windows::Forms::DateRangeEventHandler(this, &MainForm::monthCalendar1_DateChanged);
@@ -200,11 +208,42 @@ namespace Organizer {
 			this->textBox1->Enter += gcnew System::EventHandler(this, &MainForm::textBox1_Enter);
 			this->textBox1->Leave += gcnew System::EventHandler(this, &MainForm::textBox1_Leave);
 			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(981, 307);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(164, 23);
+			this->button3->TabIndex = 6;
+			this->button3->Text = L"Телефонная книга";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MainForm::button3_Click);
+			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(981, 336);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(164, 25);
+			this->button4->TabIndex = 7;
+			this->button4->Text = L"Заметки";
+			this->button4->UseVisualStyleBackColor = true;
+			// 
+			// button5
+			// 
+			this->button5->Location = System::Drawing::Point(981, 367);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(164, 25);
+			this->button5->TabIndex = 8;
+			this->button5->Text = L"Выход";
+			this->button5->UseVisualStyleBackColor = true;
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1228, 674);
+			this->Controls->Add(this->button5);
+			this->Controls->Add(this->button4);
+			this->Controls->Add(this->button3);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->monthCalendar1);
 			this->Controls->Add(this->panel3);
@@ -278,7 +317,7 @@ namespace Organizer {
 			void BuildTable() 
 			{
 				ClearTb();
-				save->Deserialize();
+				save->Deserialize("noty.sct");
 				GetALLNoty();
 				arr[0] = "Вс";
 				arr[1] = "Пн";
@@ -474,6 +513,10 @@ private: System::Void textBox1_Enter(System::Object^  sender, System::EventArgs^
 }
 private: System::Void textBox1_Leave(System::Object^  sender, System::EventArgs^  e) {
 	textBox1->Text = "Поиск...";
+}
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+	phoneBook^ phone = gcnew phoneBook();
+	phone->ShowDialog();
 }
 };
 }

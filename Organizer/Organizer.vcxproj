@@ -135,7 +135,10 @@
   <ItemGroup>
     <ClCompile Include="AddNoty.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="notebook.cpp" />
     <ClCompile Include="Noty.cpp" />
+    <ClCompile Include="phoneBook.cpp" />
+    <ClCompile Include="phoneInfo.cpp" />
     <ClCompile Include="SaveInfo.cpp" />
     <ClCompile Include="UpdateNoty.cpp" />
   </ItemGroup>
@@ -146,7 +149,12 @@
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="notebook.h" />
     <ClInclude Include="Noty.h" />
+    <ClInclude Include="phoneBook.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="phoneInfo.h" />
     <ClInclude Include="SaveInfo.h" />
     <ClInclude Include="UpdateNoty.h">
       <FileType>CppForm</FileType>
@@ -158,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="phoneBook.resx">
+      <DependentUpon>phoneBook.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateNoty.resx">
       <DependentUpon>UpdateNoty.h</DependentUpon>

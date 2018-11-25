@@ -354,7 +354,7 @@ namespace Organizer {
 				notyItem->dateStart = ConvertToDate(a, b);
 				notyItem->dateEnd = ConvertToDate(d, c);
 				_saveInfo->notysList->Add(notyItem);
-				_saveInfo->Serialize();
+				_saveInfo->Serialize("noty.sct");
 				Hide();
 			}
 		}

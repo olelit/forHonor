@@ -17,11 +17,12 @@ namespace Organizer {
 	{
 	public:
 		Noty^ _noty;
-	private: System::Windows::Forms::NumericUpDown^  hourAfter;
-	public:
 	private: System::Windows::Forms::NumericUpDown^  minAfter;
 	private: System::Windows::Forms::NumericUpDown^  minEarl;
 	private: System::Windows::Forms::NumericUpDown^  hourEarl;
+	private: System::Windows::Forms::NumericUpDown^  hourAfter;
+	public:
+
 			 SaveInfo^ saveList;
 		UpdateNoty(Noty^ noty, SaveInfo^ save)
 		{
@@ -304,7 +305,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			int ind = saveList->notysList->IndexOf(_noty);
 			saveList->notysList->RemoveAt(ind);
-			saveList->Serialize();
+			saveList->Serialize("noty.sct");
 			Hide();
 }
 
@@ -336,7 +337,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			var->dateStart = ConvertToDate(Convert::ToDecimal(hourEarl->Text), Convert::ToDecimal(minEarl->Text),var);
 			var->dateEnd = ConvertToDate(Convert::ToDecimal(hourAfter->Text), Convert::ToDecimal(minAfter->Text), var);
 			var->Text = textBox2->Text;
-			saveList->Serialize();
+			saveList->Serialize("noty.sct");
 			//_form->CreateTable();
 			Hide();
 			break;
