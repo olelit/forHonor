@@ -78,7 +78,7 @@ namespace Organizer {
 		}
 #pragma endregion
 	private: System::Void MySnake_Load(System::Object^  sender, System::EventArgs^  e) {
-		webBrowser1->Navigate(System::IO::Directory::GetCurrentDirectory() + "\\formatter\\index.html");
+		webBrowser1->Navigate(System::IO::Directory::GetCurrentDirectory() + "\\snake\\prikol.html");
 	}
 	};
 }

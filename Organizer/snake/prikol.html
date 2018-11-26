@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya Sans SC' rel='stylesheet'>
+  </head>
+  <body>
+  <style>
+	*
+{
+  margin: 0;
+  padding: 0;
+}
+
+#eat,.snake{
+  position: absolute;
+}
+
+#gameContainer{
+  display: inline-block;
+}
+
+body{
+  text-align: center;
+}
+
+#score{
+  color:red;
+  font-size:60px;
+}
+
+.snake{ border: 2px solid black}
+
+.btn-over{
+  width: 200px;
+  height: 70px;
+  margin-top: 20px;
+  border-radius: 20px;
+  font-size: 30px;
+}
+
+#gameField{
+  border: 3px solid green;
+}
+
+
+#divOver{
+  text-align: center;
+      display:none;
+      z-index: 2;
+      width: 100%;
+      height: 68%;
+      padding-top: 20%;
+      background-color: rgb(0,0,0,0.2);
+}
+#gameOver{
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 60px;
+}
+
+#eat{background: red; border: 2px solid red;}
+.snake{background: green; }
+
+  </style>
+    <div id="gameContainer">
+      <span id="score"></span>
+      <div id="gameField">
+        <div id="divOver">
+            <h1 id="gameOver">Игра окончена</h1>
+            <button id="save" class="btn-over">Сохранить</button>
+            <button id="exit" class="btn-over">Выйти</button>
+        </div>
+        <div id="eat"></div>
+        <div id="head" class="snake"></div>
+      </div>
+    </div>
+  </body>
+  <script src="main.js">
+
+  </script>
+</html>

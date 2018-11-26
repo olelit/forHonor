@@ -59,7 +59,7 @@ namespace Organizer {
 	private: System::Windows::Forms::Button^  button3;
 	private: System::Windows::Forms::Button^  button4;
 	private: System::Windows::Forms::Button^  button5;
-	private: System::Windows::Forms::Button^  button6;
+
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -95,7 +95,6 @@ namespace Organizer {
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->button6 = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->panel2->SuspendLayout();
@@ -241,22 +240,11 @@ namespace Organizer {
 			this->button5->Text = L"Выход";
 			this->button5->UseVisualStyleBackColor = true;
 			// 
-			// button6
-			// 
-			this->button6->Location = System::Drawing::Point(981, 398);
-			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(164, 25);
-			this->button6->TabIndex = 9;
-			this->button6->Text = L"Змейка";
-			this->button6->UseVisualStyleBackColor = true;
-			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
-			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1228, 674);
-			this->Controls->Add(this->button6);
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
@@ -533,10 +521,6 @@ private: System::Void textBox1_Leave(System::Object^  sender, System::EventArgs^
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	phoneBook^ phone = gcnew phoneBook();
 	phone->ShowDialog();
-}
-private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
-	MySnake^ ms = gcnew MySnake();
-	ms->ShowDialog();
 }
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 	NotyClass^ noty = gcnew NotyClass();

@@ -191,6 +191,9 @@
     <EmbeddedResource Include="phoneBook.resx">
       <DependentUpon>phoneBook.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Snake.resx">
+      <DependentUpon>Snake.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateNoty.resx">
       <DependentUpon>UpdateNoty.h</DependentUpon>
     </EmbeddedResource>

@@ -48,12 +48,21 @@ namespace Organizer {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"Snake";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->SuspendLayout();
+			// 
+			// Snake
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(284, 262);
+			this->Name = L"Snake";
+			this->Text = L"Snake";
+			this->Load += gcnew System::EventHandler(this, &Snake::Snake_Load);
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
+	private: System::Void Snake_Load(System::Object^  sender, System::EventArgs^  e) {
+	}
 	};
 }
