@@ -3,6 +3,7 @@
 #include "UpdateNoty.h"
 #include "phoneBook.h"
 #include "MySnake.h";
+#include "Noty1.h"
 //#include "notebook.h"
 
 namespace Organizer {
@@ -229,6 +230,7 @@ namespace Organizer {
 			this->button4->TabIndex = 7;
 			this->button4->Text = L"Заметки";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
 			// 
 			// button5
 			// 
@@ -535,6 +537,10 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
 	MySnake^ ms = gcnew MySnake();
 	ms->ShowDialog();
+}
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	NotyClass^ noty = gcnew NotyClass();
+	noty->ShowDialog();
 }
 };
 }
