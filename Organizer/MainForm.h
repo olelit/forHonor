@@ -321,6 +321,8 @@ namespace Organizer {
 			void BuildTable() 
 			{
 				ClearTb();
+				if(save->notysList)
+					save->notysList->Clear();
 				save->Deserialize("noty.sct");
 				GetALLNoty();
 				arr[0] = "Вс";
@@ -528,3 +530,4 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 }
 };
 }
+ 
