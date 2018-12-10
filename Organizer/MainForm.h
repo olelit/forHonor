@@ -285,11 +285,11 @@ namespace Organizer {
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e)
 	{
 
-		CurDate->Text = DateTime::UtcNow.ToShortTimeString()+"\n"+DateTime::UtcNow.ToShortDateString();
-		if (DateTime::UtcNow.Hour >= 20) {
+		CurDate->Text = DateTime::Now.ToShortTimeString()+"\n"+DateTime::Now.ToShortDateString();
+		if (DateTime::Now.Hour >= 20) {
 			ChangeCartoon("/Images/moon.png");
 		}
-		else if(DateTime::UtcNow.Hour > 3){
+		else if(DateTime::Now.Hour > 3){
 			ChangeCartoon("/Images/sun.png");
 		}
 	}
