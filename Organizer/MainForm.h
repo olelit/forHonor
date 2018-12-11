@@ -60,6 +60,8 @@ namespace Organizer {
 	private: System::Windows::Forms::Button^  button4;
 	private: System::Windows::Forms::Button^  button5;
 
+
+
 	private: System::ComponentModel::IContainer^  components;
 	protected:
 
@@ -151,6 +153,7 @@ namespace Organizer {
 			this->panel2->Name = L"panel2";
 			this->panel2->Size = System::Drawing::Size(952, 538);
 			this->panel2->TabIndex = 2;
+			this->panel2->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MainForm::panel2_Scroll);
 			// 
 			// panel4
 			// 
@@ -277,6 +280,7 @@ namespace Organizer {
 	List<Panel^>^ panList = gcnew List<Panel^>();
 	List<Label^>^ lbList = gcnew List<Label^>();
 	List<Label^>^ NotylbList = gcnew List<Label^>();
+	int scroll = 0;
 
 	String^ UserLogin = "default";
 	int hBlock = 60;
@@ -320,9 +324,11 @@ namespace Organizer {
 
 			void BuildTable() 
 			{
+				panel2->VerticalScroll->Value = 0;
 				ClearTb();
-				if(save->notysList)
+				if (save->notysList) {
 					save->notysList->Clear();
+				}
 				save->Deserialize("noty.sct");
 				GetALLNoty();
 				arr[0] = "Вс";
@@ -527,6 +533,9 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 	NotyClass^ noty = gcnew NotyClass();
 	noty->ShowDialog();
+}
+private: System::Void panel2_Scroll(System::Object^  sender, System::Windows::Forms::ScrollEventArgs^  e) {
+
 }
 };
 }

@@ -92,6 +92,7 @@ namespace Organizer {
 			this->textBox1->Location = System::Drawing::Point(217, 58);
 			this->textBox1->Multiline = true;
 			this->textBox1->Name = L"textBox1";
+			this->textBox1->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
 			this->textBox1->Size = System::Drawing::Size(562, 400);
 			this->textBox1->TabIndex = 1;
 			// 
@@ -233,6 +234,7 @@ private:
 		listBox1->Items->Add(textBox2->Text);
 		indexs->Add(elem->Id);
 		listBox1->Items->Add("Добавить...");
+		listBox1->SelectedIndex = listBox1->Items->Count-1;
 		MessageBox::Show("Данные изменены. Сохранитесь для применения изменений");
 	}
 }

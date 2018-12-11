@@ -128,6 +128,7 @@ namespace Organizer {
 			this->textBox2->Location = System::Drawing::Point(12, 210);
 			this->textBox2->Multiline = true;
 			this->textBox2->Name = L"textBox2";
+			this->textBox2->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
 			this->textBox2->Size = System::Drawing::Size(260, 106);
 			this->textBox2->TabIndex = 1;
 			// 
